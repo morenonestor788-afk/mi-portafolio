@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio - Nestor D. Espinoza-Moreno</title>
+    <style>
+        /* ==========================================================================
+           PALETA DE COLORES Y ESTILOS BASE (Azul Marino, Blanco, Azul Claro Mate y Naranja)
+           ========================================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0a192f; /* Azul Marino Profundo */
+            color: #ffffff;            /* Blanco Puro */
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* TIPOGRAFÍA BOLD ORIGINAL INTEGRADA */
+        h1, h2, h3, .logo, .contact-label, .btn {
+            font-weight: 800; 
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: #cbd5e1; /* Azul grisáceo claro para excelente legibilidad */
+            transition: color 0.3s ease;
+        }
+
+        /* ==========================================================================
+           ANIMACIONES CSS (KEYFRAMES)
+           ========================================================================== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatEffect {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes floatEffectReverse {
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(15px) scale(1.05); }
+            100% { transform: translateY(0px) scale(1); }
+        }
+
+        /* ANIMACIÓN PARA LAS GUITARRAS DE FONDO */
+        @keyframes floatGuitar {
+            0% { transform: translateY(0px) rotate(15deg); }
+            50% { transform: translateY(-25px) rotate(25deg); }
+            100% { transform: translateY(0px) rotate(15deg); }
+        }
+
+        /* VIBRACIÓN DE CUERDA DE GUITARRA */
+        @keyframes guitarPluck {
+            0% { transform: scale(1) translateY(-8px); }
+            20% { transform: scale(1.03) skewX(3deg) translateY(-8px); }
+            40% { transform: scale(0.98) skewX(-3deg) translateY(-8px); }
+            60% { transform: scale(1.01) skewX(1.5deg) translateY(-8px); }
+            80% { transform: scale(0.99) skewX(-1.5deg) translateY(-8px); }
+            100% { transform: scale(1) translateY(-8px); }
+        }
+
+        /* CÍRCULOS DE FONDO CON ANIMACIÓN FLOTANTE */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: -2;
+            opacity: 0.15;
+        }
+
+        body::before {
+            width: 400px;
+            height: 400px;
+            background-color: #ff6600; 
+            top: 15%;
+            right: -150px;
+            animation: floatEffect 8s ease-in-out infinite;
+        }
+
+        body::after {
+            width: 550px;
+            height: 550px;
+            background-color: #112240; 
+            bottom: 10%;
+            left: -200px;
+            animation: floatEffectReverse 12s ease-in-out infinite;
+        }
+
+        /* GUITARRAS CLÁSICAS AZUL CLARO EN EL FONDO (MÁS BRILLANTES) */
+        .bg-guitar {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.09;
+            fill: #7cd2ff; /* Azul Claro Vibrante */
+            pointer-events: none;
+        }
+
+        .bg-g1 { top: 22%; left: 5%; width: 75px; height: 75px; animation: floatGuitar 8s ease-in-out infinite; }
+        .bg-g2 { top: 58%; right: 7%; width: 65px; height: 65px; animation: floatGuitar 10s ease-in-out infinite; }
+        .bg-g3 { bottom: 25%; left: 8%; width: 85px; height: 85px; animation: floatGuitar 12s ease-in-out infinite; }
+
+        /* Navegación */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            background-color: rgba(10, 25, 47, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 102, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover { transform: scale(1.05); }
+        .logo span { color: #ff6600; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.2rem;
+        }
+
+        .nav-links a {
+            color: #ccd6f6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #ff6600;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: #ff6600; }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Sección Principal (Hero) */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .hero h1 span { color: #ff6600; }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 650px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .hero .btn {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        /* COMPONENTE DE SILUETA / RECORTE DE FOTO ORIGINAL */
+        .hero-image {
+            position: absolute;
+            bottom: 0;
+            right: 8%;
+            width: 320px; 
+            z-index: 1;
+            opacity: 0.95;
+            filter: drop-shadow(0 0 15px rgba(124, 210, 255, 0.15));
+            pointer-events: none; 
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            border: 2px solid #ff6600;
+            color: #ffffff;
+            background-color: #ff6600;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: max-content;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: #ff6600;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+        }
+
+        .btn.btn-outline {
+            background-color: transparent;
+            color: #ff6600;
+            box-shadow: none;
+        }
+
+        .btn.btn-outline:hover {
+            background-color: #ff6600;
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+        }
+
+        /* Secciones de Contenido */
+        section {
+            padding: 7rem 10% 2rem 10%;
+            position: relative;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        section h2::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background-color: #ff6600;
+            margin-top: 0.5rem;
+        }
+
+        /* CUADRO "SOBRE MÍ" EN AZUL CLARO MÁS DEFINIDO */
+        .sobre-mi-box {
+            background-color: #244b80; /* Azul Claro Mate Intenso */
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 850px;
+            border: 1px solid rgba(124, 210, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .sobre-mi-box p {
+            font-size: 1.1rem;
+            color: #ffffff; /* Contraste Limpio */
+        }
+
+        /* Cuadrículas */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        /* TARJETAS INTERACTIVAS AZUL MATE -> NARANJA */
+        .card {
+            background-color: #244b80; /* Azul Claro Mate inicial */
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(124, 210, 255, 0.15);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background-color: #ff6600; /* Mutación a Naranja */
+            border-color: #ff6600;
+            box-shadow: 0 15px 35px rgba(255, 102, 0, 0.3);
+        }
+
+        .card.pluck-active {
+            animation: guitarPluck 0.5s ease-in-out;
+        }
+
+        .card:hover h3 { color: #0a192f; }
+        .card:hover p { color: #ffffff; }
+
+        /* Galería Multimedia */
+        .gallery-item {
+            background-color: #112240;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid transparent;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            background-color: #ff6600;
+            border-color: #ff6600;
+            box-shadow: 0 15px 35px rgba(255, 102, 0, 0.3);
+        }
+
+        .gallery-item:hover h3 { color: #0a192f; }
+        .gallery-item:hover p { color: #ffffff; }
+
+        .media-container {
+            width: 100%;
+            height: 250px;
+            background-color: #233554;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .media-container img, .media-container iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .gallery-item:hover .media-container img { transform: scale(1.05); }
+        .media-info-block { padding: 1.5rem; }
+
+        /* Collages Compartidos */
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-auto-rows: 280px;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .collage-item {
+            position: relative;
+            background-color: #112240;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #233554;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .collage-item.wide { grid-column: span 2; }
+        .collage-item.tall { grid-row: span 2; }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            display: block;
+        }
+
+        .collage-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(10, 25, 47, 0.95));
+            transform: translateY(100%);
+            transition: transform 0.35s ease;
+            z-index: 2;
+        }
+
+        .collage-item:hover {
+            transform: translateY(-5px);
+            border-color: #ff6600;
+            box-shadow: 0 10px 25px rgba(255, 102, 0, 0.2);
+        }
+
+        .collage-item:hover img { transform: scale(1.06); }
+        .collage-item:hover .collage-overlay { transform: translateY(0); }
+
+        /* Línea de tiempo */
+        .timeline-item {
+            position: relative; 
+            margin-bottom: 3.5rem;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover { transform: translateX(10px); }
+
+        /* Contenedor de Contacto y Recomendaciones */
+        .contact-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+        }
+
+        .contact-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background-color: #112240; 
+            padding: 3rem;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 320px;
+            border: 1px solid #233554;
+        }
+
+        .recommendation-box {
+            background-color: #244b80; /* Azul Claro Mate */
+            padding: 3rem;
+            border-radius: 8px;
+            flex: 1.2;
+            min-width: 320px;
+            border: 1px solid rgba(124, 210, 255, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-group { margin-top: 0.5rem; }
+        .contact-label { display: block; color: #cbd5e1; margin-bottom: 0.5rem; }
+
+        /* Adaptación móvil */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .hero-image { display: none; }
+            .nav-links { display: none; }
+            .contact-container, .recommendation-box { width: 100%; padding: 2rem; }
+            .collage-item.wide { grid-column: span 1; }
+            .sobre-mi-box { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- RECURSOS VECTORIALES DE GUITARRA CLÁSICA AZUL CLARO -->
+    <svg class="bg-guitar bg-g1" viewBox="0 0 24 24"><path d="M6 19c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm13.5-16.5c-.8-.8-2-.8-2.8 0L11 8.2c-.3-.1-.6-.2-.9-.2-.6 0-1.1.2-1.6.5L3.6 3.6c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4.9 4.9c-.3.5-.5 1-.5 1.6 0 .3.1.6.2.9l-5.7 5.7c-.8.8-.8 2 0 2.8.8.8 2 .8 2.8 0l5.7-5.7c.3.1.6.2.9.2.6 0 1.1-.2 1.6-.5l4.9 4.9c.4.4 1 .4 1.4 0s.4-1 0-1.4l-4.9-4.9c.3-.5.5-1 .5-1.6 0-.3-.1-.6-.2-.9l5.7-5.7c.8-.8.8-2 0-2.8z"/></svg>
+    <svg class="bg-guitar bg-g2" viewBox="0 0 24 24"><path d="M6 19c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm13.5-16.5c-.8-.8-2-.8-2.8 0L11 8.2c-.3-.1-.6-.2-.9-.2-.6 0-1.1.2-1.6.5L3.6 3.6c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4.9 4.9c-.3.5-.5 1-.5 1.6 0 .3.1.6.2.9l-5.7 5.7c-.8.8-.8 2 0 2.8.8.8 2 .8 2.8 0l5.7-5.7c.3.1.6.2.9.2.6 0 1.1-.2 1.6-.5l4.9 4.9c.4.4 1 .4 1.4 0s.4-1 0-1.4l-4.9-4.9c.3-.5.5-1 .5-1.6 0-.3-.1-.6-.2-.9l5.7-5.7c.8-.8.8-2 0-2.8z"/></svg>
+    <svg class="bg-guitar bg-g3" viewBox="0 0 24 24"><path d="M6 19c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm13.5-16.5c-.8-.8-2-.8-2.8 0L11 8.2c-.3-.1-.6-.2-.9-.2-.6 0-1.1.2-1.6.5L3.6 3.6c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4.9 4.9c-.3.5-.5 1-.5 1.6 0 .3.1.6.2.9l-5.7 5.7c-.8.8-.8 2 0 2.8.8.8 2 .8 2.8 0l5.7-5.7c.3.1.6.2.9.2.6 0 1.1-.2 1.6-.5l4.9 4.9c.4.4 1 .4 1.4 0s.4-1 0-1.4l-4.9-4.9c.3-.5.5-1 .5-1.6 0-.3-.1-.6-.2-.9l5.7-5.7c.8-.8.8-2 0-2.8z"/></svg>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav>
+        <div class="logo">MI <span>PORTAFOLIO</span>.</div>
+        <ul class="nav-links">
+            <li><a href="#sobre-mi">Sobre Mí</a></li>
+            <li><a href="#proyectos">Proyectos</a></li>
+            <li><a href="#galeria">Evidencia</a></li>
+            <li><a href="#experiencia-jrotc">RHS JROTC</a></li>
+            <li><a href="#programa-guitarra">RHS Guitarra</a></li>
+            <li><a href="#memorias">Mi Historia</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- SECCIÓN PRINCIPAL (Hero original restaurado) -->
+    <div class="hero">
+        <h1>Hola, mi nombre es <br><span>Nestor D. Espinoza-Moreno.</span></h1>
+        <p>Liderazgo estratégico, disciplina y una visión multicultural aplicada al mundo de los Negocios Internacionales.</p>
+        <a href="#proyectos" class="btn">Ver Mi Trabajo</a>
+        
+        <!-- TU SILUETA RECORTE -->
+        <img src="nestor-silueta.jpg" alt="Nestor Espinoza-Moreno" class="hero-image">
+    </div>
+
+    <!-- SECCIÓN: SOBRE MÍ (CON CONTENEDOR EN AZUL CLARO MATE) -->
+    <section id="sobre-mi">
+        <h2>Sobre Mí</h2>
+        <div class="sobre-mi-box">
+            <p>
+                Soy un joven profundamente comprometido con el liderazgo, la disciplina y el desarrollo de proyectos con impacto global. Habiéndome mudado a Florida a los diez años de edad, crecí adaptándome a nuevos entornos hasta convertirme en una persona completamente bilingüe. Esta experiencia cultivó mi perspectiva multicultural y mi facilidad para conectar con diferentes entornos.
+                <br><br>
+                Mi trayectoria combina una sólida formación en liderazgo y estructura, lograda al alcanzar el rango de Sargento en JROTC y competir activamente en las disciplinas de Drill y Raider. A la par de esta formación, desarrollé una rigurosa disciplina artística durante cuatro años de estudios en guitarra clásica, donde tuve el honor de desempeñarme como presidente fundador del programa y obtener la máxima calificación de "Superior" en las competencias de Solo y Ensemble.
+                <br><br>
+                Con una mentalidad emprendedora respaldada por una certificación internacional en ESB (Entrepreneurship and Small Business), actualmente me preparo para dar el siguiente gran paso en mi formación profesional al cursar la carrera de Negocios Internacionales. Busco fusionar mi capacidad organizativa, mi visión global y mi creatividad para aportar valor en entornos comerciales y multiculturales.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECCIÓN: PROYECTOS Y LOGROS -->
+    <section id="proyectos">
+        <h2>Proyectos y Logros Destacados</h2>
+        <p style="margin-top: -2rem; margin-bottom: 2rem; color: #8892b0; font-size: 0.9rem;">💡 Pista: Intenta hacer clic en las tarjetas...</p>
+        <div class="grid">
+            
+            <div class="card" onclick="playGuitarChord(0, this)">
+                <h3>Liderazgo y Estructura (JROTC)</h3>
+                <p>Desarrollo de disciplina táctica y organizativa alcanzando el rango de Sargento. Experiencia competitiva de alto rendimiento en los equipos de Drill y Raider, potencia el trabajo bajo presión y la dirección de equipos.</p>
+            </div>
+
+            <div class="card" onclick="playGuitarChord(1, this)">
+                <h3>Certificación de Negocios (ESB)</h3>
+                <p>Acreditación formal en <em>Entrepreneurship and Small Business</em> (Emprendimiento y Pequeñas Empresas). Validación de competencias clave en gestión empresarial, finanzas básicas y desarrollo de modelos de negocio.</p>
+            </div>
+
+            <div class="card" onclick="playGuitarChord(2, this)">
+                <h3>Gestión Cultural y Música</h3>
+                <p>Cuatro años de formación rigurosa en guitarra clásica. Fundador y Presidente del programa musical, liderando initiatives artísticas grupales y obteniendo la calificación histórica de 'Superior' en competencias de Solo y Ensemble.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN: GALERÍA DE IMÁGENES Y VIDEOS -->
+    <section id="galeria">
+        <h2>Galería Multimedia</h2>
+        <div class="grid">
+
+            <!-- FOTO JROTC -->
+            <div class="gallery-item">
+                <div class="media-container">
+                    <img src="jrotc.jpg" alt="Liderazgo JROTC">
+                </div>
+                <div class="media-info-block">
+                    <h3>Disciplina y Competencia</h3>
+                    <p>Registro visual de las actividades, entrenamientos o ceremonias oficiales dentro del programa JROTC.</p>
+                </div>
+            </div>
+
+            <!-- VIDEO DE GUITARRA -->
+            <div class="gallery-item">
+                <div class="media-container" style="height: 250px;">
+                    <iframe src="https://www.youtube.com/embed/cYfUsGWajUU" 
+                            title="Evaluación de Solo y Ensemble - Nestor D. Espinoza-Moreno" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="media-info-block">
+                    <h3>Evaluación Frente al Jurado</h3>
+                    <p>Video de la ejecución musical de repertorio que obtuvo la calificación de 'Superior' en la competencia oficial.</p>
+                </div>
+            </div>
+
+            <!-- VIDEO NAVIDEÑO CORREGIDO -->
+            <div class="gallery-item">
+                <div class="media-container" style="height: 250px;">
+                    <iframe src="https://www.youtube.com/embed/9-XfNE4MONI" 
+                            title="Intercambio de Regalos de Navidad - Programa de Guitarra" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="media-info-block">
+                    <h3>Comunidad Escolar y Tradiciones</h3>
+                    <p>Celebración de dinámicas e intercambios navideños del programa, reforzando la unión grupal antes del Winter Break.</p>
+                </div>
+            </div>
+
+            <!-- VOLUNTARIADO -->
+            <div class="gallery-item">
+                <div class="media-container">
+                    <img src="refugio.jpg" alt="Voluntariado en Humane Society">
+                </div>
+                <div class="media-info-block">
+                    <h3>Compromiso y Servicio Comunitario</h3>
+                    <p>Espacio dedicado a mis horas de servicio como voluntario en la <em>Humane Society of Sarasota County</em>, apoyando el cuidado animal.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       RIVERVIEW HIGH SCHOOL: EXPERIENCIA JROTC (COLLAGE)
+       ========================================================================== -->
+    <section id="experiencia-jrotc">
+        <h2>Riverview High School: Experiencia JROTC</h2>
+        <p style="margin-top: -2rem; color: #8892b0;">Un recorrido por mi formación en instrucción militar, entrenamiento táctico y eventos comunitarios oficiales.</p>
+        
+        <div class="collage-grid">
+            
+            <div class="collage-item wide">
+                <img src="jrotc-remolque.jpg" alt="Nestor junto al remolque de JROTC">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Logística y Preparación</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Coordinación grupal previa a las jornadas de prácticas y competencias de campo en RHS.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="jrotc-marcha.jpg" alt="Nestor marchando formalmente con boina de JROTC">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Orden y Formalidad</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Alineación formal y enfoque estricto en las formaciones y desfiles cívicos.</p>
+                </div>
+            </div>
+
+            <div class="collage-item tall">
+                <img src="jrotc-familia.jpg" alt="Nestor junto a su familia afuera de Riverview High School">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Soporte Colectivo</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Acompañamiento familiar en ceremonias e hitos significativos del ciclo militar escolar.</p>
+                </div>
+            </div>
+
+            <div class="collage-item wide">
+                <img src="jrotc-equipo.jpg" alt="Equipo de Raider/Drill de JROTC posando con un trofeo">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Resultados Colectivos</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Reconocimientos grupales obtenidos en competencias de Drill y Raider de alto rendimiento.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="jrotc-ceremonia.jpg" alt="Nestor en la escolta de banderas">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Escolta de Color</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Representación protocolar y solemne con estandartes en los eventos del estadio de RHS.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="jrotc-selfie.jpg" alt="Selfie de Nestor en uniforme de camuflaje de JROTC">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Disciplina Uniformada</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Porte diario y compromiso estricto con los estándares de vestimenta institucional.</p>
+                </div>
+            </div>
+
+            <div class="collage-item wide">
+                <img src="jrotc-medallas.jpg" alt="Nestor mostrando sus cintas y medallas ganadas en JROTC">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Méritos de Liderazgo</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Cintas e insignias otorgadas por rendimiento destacado y mérito competitivo militar.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN: RIVERVIEW HIGH SCHOOL: PROGRAMA DE GUITARRA -->
+    <section id="programa-guitarra">
+        <h2>Riverview High School: Programa de Guitarra</h2>
+        <p style="margin-top: -2rem; color: #8892b0;">Una mirada al interior de mi liderazgo, pasión artística y comunidad musical en el programa.</p>
+        
+        <div class="collage-grid">
+            
+            <div class="collage-item wide">
+                <img src="guitarra-electrica.jpg" alt="Nestor con Guitarra Eléctrica Squier">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Exploración Instrumental</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Práctica constante y adaptación hacia nuevos estilos musicales modernos.</p>
+                </div>
+            </div>
+
+            <div class="collage-item tall">
+                <img src="guitarra-acustica.jpg" alt="Ensayo de Guitarra Acústica">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Estudio Técnico</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Horas de disciplina y concentración perfeccionando piezas clásicas de repertorio.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="selfie-guitarra1.jpg" alt="Selfie con Guitarra Negra">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Identidad Musical</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">La música como pilar fundamental de expresión personal y constancia.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="retrato-oficial.jpg" alt="Retrato Oficial del Programa">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Liderazgo Reconocido</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Registro de la directiva y liderazgo como presidente del programa de guitarra.</p>
+                </div>
+            </div>
+
+            <div class="collage-item wide">
+                <img src="recital-escenario.jpg" alt="Dúo de Guitarra Clásica en Concierto Escolar">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Conciertos y Presentaciones en Vivo</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Ejecución en ensamble de dúos frente al público escolar, demostrando coordinación rítmica y seguridad escénica.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="santa-guitarra.jpg" alt="Nestor Espinoza-Moreno disfrazado de Santa Claus con guitarra">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Conciertos de Temporada</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Celebraciones navideñas del departamento musical combinando el arte y la integración del campus.</p>
+                </div>
+            </div>
+
+            <div class="collage-item wide">
+                <img src="grupo-pasillo.jpg" alt="Comunidad Musical RHS">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Trabajo en Equipo y Comunidad</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Dirección y colaboración con el elenco de músicos y compañeros de RHS.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="graduacion.jpg" alt="Día de la Graduación RHS">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Culminación del Ciclo</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">Graduación oficial celebrando el éxito académico y el sello de bellas artes.</p>
+                </div>
+            </div>
+
+            <div class="collage-item">
+                <img src="selfie-guitarra2.jpg" alt="Práctica con Guitarra de RHS">
+                <div class="collage-overlay">
+                    <h3 style="font-size: 1.1rem; color: #ff6600;">Disciplina Diaria</h3>
+                    <p style="font-size: 0.85rem; color: #cbd5e1;">El compromiso constante detrás de la calificación 'Superior' obtenida.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN: MI TRAYECTORIA Y MEMORIAS -->
+    <section id="memorias">
+        <h2>Mi Historia y Memorias</h2>
+        
+        <div style="position: relative; max-width: 800px; margin: 4rem auto 0 auto; padding-left: 2rem; border-left: 3px solid #ff6600;">
+            
+            <div class="timeline-item">
+                <div style="position: absolute; width: 16px; height: 16px; background-color: #ff6600; border-radius: 50%; left: -29px; top: 6px; border: 3px solid #0a192f;"></div>
+                <span style="font-weight: 800; color: #ff6600; font-size: 0.9rem; display: block; text-transform: uppercase; letter-spacing: 1px;">A los 10 años</span>
+                <h3 style="font-size: 1.4rem; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Llegada a Florida y Adaptación Bilingüe</h3>
+                <p>Mi mudanza a Florida marcó un punto de inflexión. Crecer inmerso en una nueva cultura me impulsó a dominar el idioma hasta ser completamente bilingüe, desarrollando una mentalidad abierta, multicultural y una gran facilidad para adaptarme a los cambios.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div style="position: absolute; width: 16px; height: 16px; background-color: #ff6600; border-radius: 50%; left: -29px; top: 6px; border: 3px solid #0a192f;"></div>
+                <span style="font-weight: 800; color: #ff6600; font-size: 0.9rem; display: block; text-transform: uppercase; letter-spacing: 1px;">Liderazgo en Acción</span>
+                <h3 style="font-size: 1.4rem; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Formación Militar y Competencias</h3>
+                <p>Mi paso por JROTC consolidó mis bases de autodisciplina y trabajo en equipo. Alcanzar el rango de Sargento y competir en las exigentes pruebas de Drill y Raider me enseñó el verdadero valor de la estructura, la resiliencia y la dirección de personal bajo presión.</p>
+            </div>
+
+            <div class="timeline-item">
+                <div style="position: absolute; width: 16px; height: 16px; background-color: #ff6600; border-radius: 50%; left: -29px; top: 6px; border: 3px solid #0a192f;"></div>
+                <span style="font-weight: 800; color: #ff6600; font-size: 0.9rem; display: block; text-transform: uppercase; letter-spacing: 1px;">Orgullo Cívico</span>
+                <h3 style="font-size: 1.4rem; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Marcha en el Sarasota Veterans Parade</h3>
+                <p>Marchar uniformado representando a las fuerzas juveniles en el Desfile de Veteranos de Sarasota fue un honor cívico. Esta experiencia reforzó mi respeto por el servicio comunitario, el orden público y la representation formal de una organización ante los ciudadanos de Florida.</p>
+            </div>
+
+            <div class="timeline-item" style="margin-bottom: 1rem;">
+                <div style="position: absolute; width: 16px; height: 16px; background-color: #ff6600; border-radius: 50%; left: -29px; top: 6px; border: 3px solid #0a192f;"></div>
+                <span style="font-weight: 800; color: #ff6600; font-size: 0.9rem; display: block; text-transform: uppercase; letter-spacing: 1px;">Logro Cultural</span>
+                <h3 style="font-size: 1.4rem; color: #ffffff; margin: 0.2rem 0 0.5rem 0;">Presidencia Fundadora y Calificación 'Superior'</h3>
+                <p>Asumir el rol de presidente fundador del programa de guitarra clásica fue un reto de gestión tanto artístico como organizativo. Culminar este proceso obteniendo una calificación de 'Superior' ante los jueces reafirmó que la disciplina constante siempre rinde frutos.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN: CONTACTO Y RECOMENDACIÓN -->
+    <section id="contacto" style="margin-bottom: 5rem;">
+        <h2>Contacto y Referencias</h2>
+        <p style="margin-bottom: 3rem;">¿Te interesa colaborar, conocer más sobre mi trabajo o revisar mi trayectoria con miras a admisiones y becas? Ponte en contacto conmigo o revisa mis avales académicos.</p>
+        
+        <div class="contact-layout">
+            <!-- Datos de Contacto Directo -->
+            <div class="contact-container">
+                <div class="contact-group">
+                    <span class="contact-label">Correo Electrónico:</span>
+                    <a href="mailto:morenonestor788@gmail.com" class="btn">morenonestor788@gmail.com</a>
+                </div>
+
+                <div class="contact-group">
+                    <span class="contact-label">Teléfono:</span>
+                    <a href="tel:+19418797611" class="btn">941-879-7611</a>
+                </div>
+            </div>
+
+            <!-- Recuadro Destacado para la Carta de Recomendación -->
+            <div class="recommendation-box">
+                <div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #ffffff;">Carta de Recomendación Académica</h3>
+                    <p style="color: #ffffff; font-size: 1.05rem;">Respaldada por el departamento de música y mentoría de la institución, validando mi desempeño como presidente del programa, aptitud organizativa y constancia en proyectos de alto rendimiento.</p>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <a href="carta-recommendacion.pdf" target="_blank" class="btn btn-outline">Abrir Carta de Recomendación (PDF)</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JAVASCRIPT: EASTER EGG DE GUITARRA -->
+    <script>
+        function playGuitarChord(chordIndex, element) {
+            element.classList.add('pluck-active');
+            setTimeout(() => { element.classList.remove('pluck-active'); }, 500);
+
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                const chords = [
+                    [110.00, 164.81, 220.00, 277.18, 329.63], // La Mayor (A)
+                    [130.81, 164.81, 196.00, 261.63, 329.63], // Do Mayor (C)
+                    [82.41, 146.83, 196.00, 246.94, 329.63]   // Mi Menor (Em)
+                ];
+
+                const currentChord = chords[chordIndex];
+
+                currentChord.forEach((freq, index) => {
+                    const osc = ctx.createOscillator();
+                    const gainNode = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+                    const startTime = ctx.currentTime + (index * 0.04);
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + 1.8);
+
+                    osc.connect(gainNode);
+                    gainNode.connect(ctx.destination);
+
+                    osc.start(startTime);
+                    osc.stop(startTime + 1.8);
+                });
+            } catch (e) {
+                console.log("Audio no soportado.");
+            }
+        }
+    </script>
+
+</body>
+</html>
